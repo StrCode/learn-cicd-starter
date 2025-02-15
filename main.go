@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"embed"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -32,9 +33,10 @@ func main() {
 	}
 
 	port := os.Getenv("PORT")
+	fmt.Println(port)
 	if port == "" {
-		port = "8080"
-		// log.Fatal("PORT environment variable is not set")
+		fmt.Println("got here")
+		log.Fatal("PORT environment variable is not set")
 	}
 
 	apiCfg := apiConfig{}
@@ -91,7 +93,7 @@ func main() {
 
 	router.Mount("/v1", v1Router)
 	srv := &http.Server{
-		ReadTimeout: time.Second * 5,
+		ReadTimeout: time.Hour * 5,
 		Addr:        ":" + port,
 		Handler:     router,
 	}
